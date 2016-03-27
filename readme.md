@@ -33,7 +33,7 @@ $ rake db:seed
 $ rails s
 ```
 
-## You do: Walkthrough of Current App (20 minutes / 0:25)
+## You Do: Walkthrough of Current App (20 minutes / 0:25)
 
 > With the person next to you, take 10 minutes to walk through the following part of the lesson plan, up to the `Factories and Services` header. Read our descriptions of the different components.
 
@@ -74,7 +74,7 @@ $ git checkout -b factory-resource 2.0.0
 > **data-ng-app**: Establishes the domain of our Angular application.  
 >  
 > **data-ui-sref:** This creates a link that, when clicked, directs the user to `#/grumbles` without reloading the page.
-> 
+>
 > We use this instead of the usual `href` because `sref` refers to a state and automatically grabs the URL for that state. It's like link helpers in rails.
 >  
 > **data-ui-view:** Whichever view is triggered by the user will be displayed in the DOM element with this attribute.  
@@ -180,19 +180,44 @@ First up, we'll convert the hardcoded data to read from an external API using a 
 ### Factory
 A factory is an Angular component that adds functionality to an Angular application. It does this by generating new instances of something. In this case, Grumbles.  
 
-Factories allow us to separate concerns and extract functionality that would otherwise be defined in our controller. We do this by creating an object, attaching properties and methods to it and then returning that object. Here's a simple example...
+Factories allow us to separate concerns and extract functionality that would otherwise be defined in our controller. We do this by creating an object, attaching properties and methods to it and then returning that object.
 
-> No need to code along since this won't be incorporated into Grumblr.
+Let's start building out a factory in Grumblr. First, create a script file for our factory...
+
+```bash
+# From our app's root directory...
+
+$ touch js/grumbles/grumble.factory.js
+```
+
+Then let's include our factory file in our main `index.html` file...
+
+```html
+<!-- index.html -->
+
+<script src="js/app.js"></script>
+<script src="js/grumbles/grumbles.js"></script>
+<script src="js/grumbles/index.controller.js"></script>
+<script src="js/grumbles/grumble.factory.js"></script>
+```
+
+> Note the file naming syntax! Not mandatory but we're choosing to follow [this Angular style guide](https://github.com/johnpapa/angular-styleguide).  
+
+Now let's start building out our factory...
 
 ```js
+// js/grumbles/grumble.factory.js
+
+"use strict";
+
 (function(){
   angular
-    .module( "appName" )
-    .factory( "factoryName", [
-      FactoryFunction
+    .module( "grumbles" )
+    .factory( "GrumbleFactory", [
+      GrumbleFactoryFunction
     ]);
 
-  function FactoryFunction(){
+  function GrumbleFactoryFunction(){
     return {
       this.helloWorld: function(){
         console.log( "Hello world!" );
@@ -208,18 +233,18 @@ Now we can call it in a controller...
 ```js
 (function(){
   angular
-    .module( "appName" )
-    .controller( "controllerName", [
+    .module( "grumble" )
+    .controller( "GrumbleIndexController", [
       // The factory is passed in as a dependency to our controller.
-      "factoryName",
-      controllerFunction
+      "GrumbleFactory",
+      GrumbleIndexControllerFunction
     ]);
 
-  function controllerFunction( factoryName ){
+  function GrumbleIndexControllerFunction( factoryName ){
     // When `helloWorld` is called on the controller, it runs the function that we defined in our factory.
-    this.helloWorld = factoryName.helloWorld();
+    GrumbleFactory.helloWorld();
   }
-}());
+})();
 ```
 > This is nice because it keeps our controller clean. We leave the function declaration(s) to our factory.
 
@@ -229,12 +254,12 @@ A service achieves the same purpose as a factory. It is instantiated, however, u
 ```js
 (function(){
   angular
-    .module( "appName" )
-    .service( "serviceName", [
-      ServiceFunction
+    .module( "grumble" )
+    .service( "GrumbleService", [
+      GrumbleServiceFunction
     ]);
 
-    function ServiceFunction(){
+    function GrumbleServiceFunction(){
       this.helloWorld = function(){
         console.log( "Hello world!" );
       }
@@ -247,14 +272,14 @@ And in our controller...
 (function(){
   angular
     .module( "appName" )
-    .controller( "controllerName", [
-      "serviceName",
-      controllerFunction
+    .controller( "GrumbleIndexController", [
+      "GrumbleService",
+      GrumbleIndexControllerFunction
     ]
   });
 
-  function controllerFunction( serviceName ){
-    this.helloWorld = serviceName.helloWorld();
+  function GrumbleIndexControllerFunction( GrumbleService ){
+    GrumbleService.helloWorld();
   }
 }());
 ```
@@ -302,18 +327,6 @@ Add `ngResource` as a dependency to our application in `js/grumbles/grumbles.js`
 }());
 ```
 
-Create a new file `js/grumbles/grumble.factory.js` and include in `index.html`.  
-
-```html
-<!-- index.html -->
-
-<script src="js/app.js"></script>
-<script src="js/grumbles/grumbles.js"></script>
-<script src="js/grumbles/index.controller.js"></script>
-<script src="js/grumbles/grumble.factory.js"></script>
-```
-> Note the file naming syntax! Not mandatory but we're choosing to follow [this Angular style guide](https://github.com/johnpapa/angular-styleguide).
-
 ```js
 // js/grumbles/grumble.factory.js
 
@@ -322,10 +335,10 @@ Create a new file `js/grumbles/grumble.factory.js` and include in `index.html`.
     .module( "grumbles" )
     .factory( "GrumbleFactory", [
       "$resource",
-      FactoryFunction
+      GrumbleFactoryFunction
     ]);
 
-    function FactoryFunction( $resource ){
+    function GrumbleFactoryFunction( $resource ){
       return $resource( "http://localhost:3000/grumbles/:id" );
     }
 }());
@@ -338,7 +351,8 @@ Out of the box, this gives us several methods for our newly defined `Grumble` se
 * `Grumble.query`  
 * `Grumble.remove`  
 * `Grumble.delete`  
-> Where's `update`, you ask? We're going to define that ourselves later on.
+
+> Where's `update`, you ask? We're going to define that ourselves later on.  
 
 When the data is returned from the server, the response object is an instance of the resource class. The actions `save`, `remove` and `delete` are available on it as methods with the `$` prefix. This allows you to easily perform CRUD operations on server-side data like this...  
 
