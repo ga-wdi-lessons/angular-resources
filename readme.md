@@ -43,7 +43,7 @@ Where we're picking up the app, it has only a functioning index route that uses 
 
 Also, it doesn't use `$locationProvider` to remove the hashmark from URLs: all the URLs will be something like index.html#/grumbles/32. This makes things a bit easier for development: without the hashmark refreshing the page doesn't work, but it does with the hashmark.
 
-Grab the starter code by running the below lines in Terminal...
+If you do not controller and views for your index and show states, then grab this class' starter code by running the below lines in Terminal...
 
 ```bash
 $ git clone git@github.com:ga-dc/grumblr_angular.git
