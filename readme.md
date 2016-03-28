@@ -25,16 +25,19 @@ In the last couple of classes, we've been using hard coded values in our control
 
 > As you go, make a list of up to 3 things on which you could use the most clarification. We'll then take the next 10 minutes to clarify them as a class.
 
-Where we're picking up the app, it has (1) a functioning index route that uses grumbles hardcoded into the index controller and (2) the makings of a show route. We'll need to build out the latter.  
+Where we're picking up the app, it has...
+* A functioning index route that uses grumbles hardcoded into the index controller
+* The makings of a show route. We'll need to build this out.
 
-Also, it doesn't use `$locationProvider` to remove the hashmark from URLs: all the URLs will be something like /#/grumbles/32. This makes things a bit easier for development: without the hashmark refreshing the page doesn't work, but it does with the hashmark.
-
-If you do not have controllers and views for your index and show states, then grab this class' starter code by running the below lines in Terminal...
+Run the below commands to clone this class' starter code. You will not be using the code you created in the `ui-router` class.  
 
 ```bash
 $ git clone git@github.com:ga-wdi-exercises/grumblr_angular.git
 $ git checkout -b factory-resource 2.0.0
 ```
+
+Also, it doesn't use `$locationProvider` to remove the hashmark from URLs: all the URLs will be something like /#/grumbles/32. This makes things a bit easier for development: without the hashmark refreshing the page doesn't work, but it does with the hashmark.
+
 
 #### index.html
 
