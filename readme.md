@@ -240,7 +240,7 @@ Now we can call it in a controller...
       GrumbleIndexControllerFunction
     ]);
 
-  function GrumbleIndexControllerFunction( factoryName ){
+  function GrumbleIndexControllerFunction( GrumbleFactory ){
     // When `helloWorld` is called on the controller, it runs the function that we defined in our factory.
     GrumbleFactory.helloWorld();
   }
