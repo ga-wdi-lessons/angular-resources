@@ -19,34 +19,20 @@
 
 In the last couple of classes, we've been using hard coded values in our controller to act as our "backend". We probably won't ever do that again. Instead we'll be connecting to an external API using resources and providing an interface to models using factories.
 
-## Set Up Grumblr API (2.5 minutes / 0:05)
-
-Let's start by cloning and running a Grumblr Rails API in the background. Our front-end Grumblr application will make AJAX calls to this API.
-
-```bash
-$ git clone git@github.com:ga-dc/grumblr_rails_api.git
-$ cd grumblr_rails_api
-$ bundle install
-$ rake db:create
-$ rake db:migrate
-$ rake db:seed
-$ rails s
-```
-
 ## You Do: Walkthrough of Current App (20 minutes / 0:25)
 
 > With the person next to you, take 10 minutes to walk through the following part of the lesson plan, up to the `Factories and Services` header. Read our descriptions of the different components.
 
 > As you go, make a list of up to 3 things on which you could use the most clarification. We'll then take the next 10 minutes to clarify them as a class.
 
-Where we're picking up the app, it has only a functioning index route that uses grumbles hardcoded into the index controller.
+Where we're picking up the app, it has (1) a functioning index route that uses grumbles hardcoded into the index controller and (2) the makings of a show route. We'll need to build out the latter.  
 
-Also, it doesn't use `$locationProvider` to remove the hashmark from URLs: all the URLs will be something like index.html#/grumbles/32. This makes things a bit easier for development: without the hashmark refreshing the page doesn't work, but it does with the hashmark.
+Also, it doesn't use `$locationProvider` to remove the hashmark from URLs: all the URLs will be something like /#/grumbles/32. This makes things a bit easier for development: without the hashmark refreshing the page doesn't work, but it does with the hashmark.
 
-If you do not controller and views for your index and show states, then grab this class' starter code by running the below lines in Terminal...
+If you do not have controllers and views for your index and show states, then grab this class' starter code by running the below lines in Terminal...
 
 ```bash
-$ git clone git@github.com:ga-dc/grumblr_angular.git
+$ git clone git@github.com:ga-wdi-exercises/grumblr_angular.git
 $ git checkout -b factory-resource 2.0.0
 ```
 
@@ -172,6 +158,20 @@ $ git checkout -b factory-resource 2.0.0
 > **GrumbleIndexControllerFunction:** A function that contains this controller's behavior. This is a stylistic decision - we could have passed in an anonymous function to `.controller` if we wanted to.  
 
 You'll notice that, at the moment, we have hard-coded models into the Grumbles controller. Today we'll be learning about `ngResource`, a module that allows us to make calls to that Rails API we set up at the start of class.
+
+## Set Up Grumblr API (2.5 minutes / 0:05)
+
+Let's start by cloning and running a Grumblr Rails API in the background. Our front-end Grumblr application will make AJAX calls to this API.
+
+```bash
+$ git clone git@github.com:ga-wdi-exercises/grumblr_rails_api.git
+$ cd grumblr_rails_api
+$ bundle install
+$ rake db:create
+$ rake db:migrate
+$ rake db:seed
+$ rails s
+```
 
 ## Factories and Services (10 minutes / 0:35)
 
@@ -474,7 +474,7 @@ Use what you learned on your first day of Angular to create a show view for a Gr
 
 #### Need Help?
 
-[Here's the solution.](https://github.com/ga-dc/grumblr_angular/commit/892a8a2a190e64498723574ea8e6536a75c247ca)
+[Here's the solution.](https://github.com/ga-wdi-exercises/grumblr_angular/commit/892a8a2a190e64498723574ea8e6536a75c247ca)
 
 Our app now matches the solution code for this class. We're going to spend the remainder of the lesson rounding out CRUD functionality in our application. Tomorrow you will learn about **Custom Directives** that will allow you to do this in true SPA fashion. But for now, we're going to use the same process we did when implementing `index` and `show`.
 
