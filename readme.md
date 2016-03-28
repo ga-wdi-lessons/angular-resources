@@ -173,7 +173,7 @@ $ git checkout -b factory-resource 2.0.0
 
 You'll notice that, at the moment, we have hard-coded models into the Grumbles controller. Today we'll be learning about `ngResource`, a module that allows us to make calls to that Rails API we set up at the start of class.
 
-## Factories and Services (15 minutes / 0:40)
+## Factories and Services (10 minutes / 0:35)
 
 First up, we'll convert the hardcoded data to read from an external API using a factory. A factory, however, is not the only way to accomplish this. Let's see what tools we have at our disposal.
 
@@ -219,7 +219,7 @@ Now let's start building out our factory...
 
   function GrumbleFactoryFunction(){
     return {
-      this.helloWorld: function(){
+      helloWorld: function(){
         console.log( "Hello world!" );
       }
     }
@@ -298,7 +298,7 @@ Great article comparing Factories, Services, & Providers:
 
 [http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/)
 
-### I DO: Create Grumble Factory (15 minutes / 0:55)
+### I DO: Create Grumble Factory (10 minutes / 0:50)
 
 Let's make a factory that's actually useful. It's purpose: enable us to perform CRUD actions on our Rails Grumblr API.  
 
@@ -364,6 +364,8 @@ var grumble = Grumble.get( { id:123 }, function(grumble) {
 });
 ```
 
+### YOU DO: Create Grumble Factory (10 minutes)
+
 ### I DO: Update Index Controller (5 minutes / 1:00)
 
 Let's update our index controller so that, instead of using hard-coded grumbles, `this.grumbles` is set to the result of making a `GET` request to `http://localhost:3000/grumbles`.
@@ -386,6 +388,8 @@ Let's update our index controller so that, instead of using hard-coded grumbles,
 
 }());
 ```
+### YOU DO: Update Index Controller (5 minutes)
+
 ### BREAK (10 minutes / 1:10)
 
 ### YOU DO: Show (20 minutes / 1:20)
@@ -410,13 +414,14 @@ $ touch js/grumbles/show.controller.js
 Use the same format as we did with `grumbleIndex`.  
 * You can chain the new `.state()` to the existing one.
 * The `url` will require a placeholder for the individual grumble's unique identifier.  
-
-> HINT: How did we represent this in Express?  
+* Don't forget to include values for `controller` and `controllerAs`.  
 
 ```js
 .state("grumbleShow", {
   url: "/grumbles/:id",
-  templateUrl: "js/grumbles/show.html"
+  templateUrl: "js/grumbles/show.html",
+  controller: "GrumbleShowController",
+  controllerAs: "GrumbleShowViewModel"
 });
 ```
 
@@ -488,19 +493,21 @@ $stateProvider
     controller: "GrumbleIndexController",
     controllerAs: "GrumbleIndexViewModel"
   })
-  .state("grumbleShow", {
-    url: "/grumbles/:id",
-    templateUrl: "js/grumbles/show.html",
-    controller: "GrumbleShowController",
-    controllerAs: "GrumbleShowViewModel"
-  })
   .state("grumbleNew", {
     url: "/grumbles/new",
     templateUrl: "js/grumbles/new.html",
     controller: "GrumbleNewController",
     controllerAs: "GrumbleNewViewModel"
+  })
+  .state("grumbleShow", {
+    url: "/grumbles/:id",
+    templateUrl: "js/grumbles/show.html",
+    controller: "GrumbleShowController",
+    controllerAs: "GrumbleShowViewModel"
   });
 ```
+
+> NOTE: `grumbleNew` is placed before `grumbleShow`. This is important - why? Switching `grumbleNew` and `grumbleShow` may shed some light on this...  
 
 #### Create `new.html`
 
@@ -520,6 +527,7 @@ Let's start by creating a form view for creating Grumbles.
 </form>
 ```
 > Fields are matched to grumble properties using the `data-ng-model` directive.  
+
 #### Add New Link to `index.html`
 
 This link will trigger the `grumbleNew` state when clicked.
