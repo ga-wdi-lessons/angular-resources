@@ -15,38 +15,24 @@
 * Use $stateParams to access query parameters and update the URL.
 * Create separate views and routes for each CRUD action.
 
-## Framing (2.5 minutes / 0:02)
+## Framing
 
 In the last couple of classes, we've been using hard coded values in our controller to act as our "backend". We probably won't ever do that again. Instead we'll be connecting to an external API using resources and providing an interface to models using factories.
 
-## Set Up Grumblr API (2.5 minutes / 0:05)
-
-Let's start by cloning and running a Grumblr Rails API in the background. Our front-end Grumblr application will make AJAX calls to this API.
-
-```bash
-$ git clone git@github.com:ga-dc/grumblr_rails_api.git
-$ cd grumblr_rails_api
-$ bundle install
-$ rake db:create
-$ rake db:migrate
-$ rake db:seed
-$ rails s
-```
-
-## You do: Walkthrough of Current App (20 minutes / 0:25)
+## You Do: Walkthrough of Current App (20 minutes / 0:20)
 
 > With the person next to you, take 10 minutes to walk through the following part of the lesson plan, up to the `Factories and Services` header. Read our descriptions of the different components.
 
 > As you go, make a list of up to 3 things on which you could use the most clarification. We'll then take the next 10 minutes to clarify them as a class.
 
-Where we're picking up the app, it has only a functioning index route that uses grumbles hardcoded into the index controller.
+Where we're picking up the app, it has (1) a functioning index route that uses grumbles hardcoded into the index controller and (2) the makings of a show route. We'll need to build out the latter.  
 
-Also, it doesn't use `$locationProvider` to remove the hashmark from URLs: all the URLs will be something like index.html#/grumbles/32. This makes things a bit easier for development: without the hashmark refreshing the page doesn't work, but it does with the hashmark.
+Also, it doesn't use `$locationProvider` to remove the hashmark from URLs: all the URLs will be something like /#/grumbles/32. This makes things a bit easier for development: without the hashmark refreshing the page doesn't work, but it does with the hashmark.
 
-Grab the starter code by running the below lines in Terminal...
+If you do not have controllers and views for your index and show states, then grab this class' starter code by running the below lines in Terminal...
 
 ```bash
-$ git clone git@github.com:ga-dc/grumblr_angular.git
+$ git clone git@github.com:ga-wdi-exercises/grumblr_angular.git
 $ git checkout -b factory-resource 2.0.0
 ```
 
@@ -74,7 +60,7 @@ $ git checkout -b factory-resource 2.0.0
 > **data-ng-app**: Establishes the domain of our Angular application.  
 >  
 > **data-ui-sref:** This creates a link that, when clicked, directs the user to `#/grumbles` without reloading the page.
-> 
+>
 > We use this instead of the usual `href` because `sref` refers to a state and automatically grabs the URL for that state. It's like link helpers in rails.
 >  
 > **data-ui-view:** Whichever view is triggered by the user will be displayed in the DOM element with this attribute.  
@@ -173,28 +159,67 @@ $ git checkout -b factory-resource 2.0.0
 
 You'll notice that, at the moment, we have hard-coded models into the Grumbles controller. Today we'll be learning about `ngResource`, a module that allows us to make calls to that Rails API we set up at the start of class.
 
-## Factories and Services (15 minutes / 0:40)
+## Set Up Grumblr API (5 minutes / 0:25)
+
+Let's start by cloning and running a Grumblr Rails API in the background. Our front-end Grumblr application will make AJAX calls to this API.
+
+```bash
+$ git clone git@github.com:ga-wdi-exercises/grumblr_rails_api.git
+$ cd grumblr_rails_api
+$ bundle install
+$ rake db:create
+$ rake db:migrate
+$ rake db:seed
+$ rails s
+```
+
+## Factories and Services (10 minutes / 0:35)
 
 First up, we'll convert the hardcoded data to read from an external API using a factory. A factory, however, is not the only way to accomplish this. Let's see what tools we have at our disposal.
 
 ### Factory
 A factory is an Angular component that adds functionality to an Angular application. It does this by generating new instances of something. In this case, Grumbles.  
 
-Factories allow us to separate concerns and extract functionality that would otherwise be defined in our controller. We do this by creating an object, attaching properties and methods to it and then returning that object. Here's a simple example...
+Factories allow us to separate concerns and extract functionality that would otherwise be defined in our controller. We do this by creating an object, attaching properties and methods to it and then returning that object.
 
-> No need to code along since this won't be incorporated into Grumblr.
+Let's start building out a factory in Grumblr. First, create a script file for our factory...
+
+```bash
+# From our app's root directory...
+
+$ touch js/grumbles/grumble.factory.js
+```
+
+Then let's include our factory file in our main `index.html` file...
+
+```html
+<!-- index.html -->
+
+<script src="js/app.js"></script>
+<script src="js/grumbles/grumbles.js"></script>
+<script src="js/grumbles/index.controller.js"></script>
+<script src="js/grumbles/grumble.factory.js"></script>
+```
+
+> Note the file naming syntax! Not mandatory but we're choosing to follow [this Angular style guide](https://github.com/johnpapa/angular-styleguide).  
+
+Now let's start building out our factory...
 
 ```js
+// js/grumbles/grumble.factory.js
+
+"use strict";
+
 (function(){
   angular
-    .module( "appName" )
-    .factory( "factoryName", [
-      FactoryFunction
+    .module( "grumbles" )
+    .factory( "GrumbleFactory", [
+      GrumbleFactoryFunction
     ]);
 
-  function FactoryFunction(){
+  function GrumbleFactoryFunction(){
     return {
-      this.helloWorld: function(){
+      helloWorld: function(){
         console.log( "Hello world!" );
       }
     }
@@ -208,33 +233,34 @@ Now we can call it in a controller...
 ```js
 (function(){
   angular
-    .module( "appName" )
-    .controller( "controllerName", [
+    .module( "grumble" )
+    .controller( "GrumbleIndexController", [
       // The factory is passed in as a dependency to our controller.
-      "factoryName",
-      controllerFunction
+      "GrumbleFactory",
+      GrumbleIndexControllerFunction
     ]);
 
-  function controllerFunction( factoryName ){
+  function GrumbleIndexControllerFunction( GrumbleFactory ){
     // When `helloWorld` is called on the controller, it runs the function that we defined in our factory.
-    this.helloWorld = factoryName.helloWorld();
+    GrumbleFactory.helloWorld();
   }
-}());
+})();
 ```
 > This is nice because it keeps our controller clean. We leave the function declaration(s) to our factory.
 
 ### Service
+
 A service achieves the same purpose as a factory. It is instantiated, however, using the `new` keyword. Instead of defining an object and returning it, we attach properties and methods to `this`. Let's recreate the above factory using a service...
 
 ```js
 (function(){
   angular
-    .module( "appName" )
-    .service( "serviceName", [
-      ServiceFunction
+    .module( "grumble" )
+    .service( "GrumbleService", [
+      GrumbleServiceFunction
     ]);
 
-    function ServiceFunction(){
+    function GrumbleServiceFunction(){
       this.helloWorld = function(){
         console.log( "Hello world!" );
       }
@@ -247,14 +273,14 @@ And in our controller...
 (function(){
   angular
     .module( "appName" )
-    .controller( "controllerName", [
-      "serviceName",
-      controllerFunction
+    .controller( "GrumbleIndexController", [
+      "GrumbleService",
+      GrumbleIndexControllerFunction
     ]
   });
 
-  function controllerFunction( serviceName ){
-    this.helloWorld = serviceName.helloWorld();
+  function GrumbleIndexControllerFunction( GrumbleService ){
+    GrumbleService.helloWorld();
   }
 }());
 ```
@@ -273,7 +299,7 @@ Great article comparing Factories, Services, & Providers:
 
 [http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/)
 
-### I DO: Create Grumble Factory (15 minutes / 0:55)
+### I Do: Create Grumble Factory (10 minutes / 0:45)
 
 Let's make a factory that's actually useful. It's purpose: enable us to perform CRUD actions on our Rails Grumblr API.  
 
@@ -302,18 +328,6 @@ Add `ngResource` as a dependency to our application in `js/grumbles/grumbles.js`
 }());
 ```
 
-Create a new file `js/grumbles/grumble.factory.js` and include in `index.html`.  
-
-```html
-<!-- index.html -->
-
-<script src="js/app.js"></script>
-<script src="js/grumbles/grumbles.js"></script>
-<script src="js/grumbles/index.controller.js"></script>
-<script src="js/grumbles/grumble.factory.js"></script>
-```
-> Note the file naming syntax! Not mandatory but we're choosing to follow [this Angular style guide](https://github.com/johnpapa/angular-styleguide).
-
 ```js
 // js/grumbles/grumble.factory.js
 
@@ -322,10 +336,10 @@ Create a new file `js/grumbles/grumble.factory.js` and include in `index.html`.
     .module( "grumbles" )
     .factory( "GrumbleFactory", [
       "$resource",
-      FactoryFunction
+      GrumbleFactoryFunction
     ]);
 
-    function FactoryFunction( $resource ){
+    function GrumbleFactoryFunction( $resource ){
       return $resource( "http://localhost:3000/grumbles/:id" );
     }
 }());
@@ -338,7 +352,8 @@ Out of the box, this gives us several methods for our newly defined `Grumble` se
 * `Grumble.query`  
 * `Grumble.remove`  
 * `Grumble.delete`  
-> Where's `update`, you ask? We're going to define that ourselves later on.
+
+> Where's `update`, you ask? We're going to define that ourselves later on.  
 
 When the data is returned from the server, the response object is an instance of the resource class. The actions `save`, `remove` and `delete` are available on it as methods with the `$` prefix. This allows you to easily perform CRUD operations on server-side data like this...  
 
@@ -350,7 +365,9 @@ var grumble = Grumble.get( { id:123 }, function(grumble) {
 });
 ```
 
-### I DO: Update Index Controller (5 minutes / 1:00)
+### You Do: Create Grumble Factory (10 minutes / 0:55)
+
+### I Do: Update Index Controller (5 minutes / 1:00)
 
 Let's update our index controller so that, instead of using hard-coded grumbles, `this.grumbles` is set to the result of making a `GET` request to `http://localhost:3000/grumbles`.
 
@@ -372,9 +389,11 @@ Let's update our index controller so that, instead of using hard-coded grumbles,
 
 }());
 ```
-### BREAK (10 minutes / 1:10)
+### You Do: Update Index Controller (5 minutes / 1:05)
 
-### YOU DO: Show (20 minutes / 1:20)
+### Break (10 minutes / 1:15)
+
+### You Do: Show (20 minutes / 1:35)
 
 #### Create and Link to a Show Controller File
 
@@ -396,13 +415,14 @@ $ touch js/grumbles/show.controller.js
 Use the same format as we did with `grumbleIndex`.  
 * You can chain the new `.state()` to the existing one.
 * The `url` will require a placeholder for the individual grumble's unique identifier.  
-
-> HINT: How did we represent this in Express?  
+* Don't forget to include values for `controller` and `controllerAs`.  
 
 ```js
 .state("grumbleShow", {
   url: "/grumbles/:id",
-  templateUrl: "js/grumbles/show.html"
+  templateUrl: "js/grumbles/show.html",
+  controller: "GrumbleShowController",
+  controllerAs: "GrumbleShowViewModel"
 });
 ```
 
@@ -455,12 +475,12 @@ Use what you learned on your first day of Angular to create a show view for a Gr
 
 #### Need Help?
 
-[Here's the solution.](https://github.com/ga-dc/grumblr_angular/commit/892a8a2a190e64498723574ea8e6536a75c247ca)
+[Here's the solution.](https://github.com/ga-wdi-exercises/grumblr_angular/commit/892a8a2a190e64498723574ea8e6536a75c247ca)
 
 Our app now matches the solution code for this class. We're going to spend the remainder of the lesson rounding out CRUD functionality in our application. Tomorrow you will learn about **Custom Directives** that will allow you to do this in true SPA fashion. But for now, we're going to use the same process we did when implementing `index` and `show`.
 
 
-### I DO: New/Create (15 minutes / 1:35)
+### I Do: New/Create (15 minutes / 1:50)
 
 #### Create `grumbleNew` Route
 
@@ -474,19 +494,21 @@ $stateProvider
     controller: "GrumbleIndexController",
     controllerAs: "GrumbleIndexViewModel"
   })
-  .state("grumbleShow", {
-    url: "/grumbles/:id",
-    templateUrl: "js/grumbles/show.html",
-    controller: "GrumbleShowController",
-    controllerAs: "GrumbleShowViewModel"
-  })
   .state("grumbleNew", {
     url: "/grumbles/new",
     templateUrl: "js/grumbles/new.html",
     controller: "GrumbleNewController",
     controllerAs: "GrumbleNewViewModel"
+  })
+  .state("grumbleShow", {
+    url: "/grumbles/:id",
+    templateUrl: "js/grumbles/show.html",
+    controller: "GrumbleShowController",
+    controllerAs: "GrumbleShowViewModel"
   });
 ```
+
+> NOTE: `grumbleNew` is placed before `grumbleShow`. This is important - why? Switching `grumbleNew` and `grumbleShow` may shed some light on this...  
 
 #### Create `new.html`
 
@@ -506,6 +528,7 @@ Let's start by creating a form view for creating Grumbles.
 </form>
 ```
 > Fields are matched to grumble properties using the `data-ng-model` directive.  
+
 #### Add New Link to `index.html`
 
 This link will trigger the `grumbleNew` state when clicked.
@@ -558,7 +581,11 @@ This link will trigger the `grumbleNew` state when clicked.
 }());
 ```
 
-### YOU DO: Edit/Update (20 minutes / 1:55)
+### You Do: New/Create (10 minutes / 2:00)
+
+### Break (5 minutes / 2:05)
+
+### You Do: Edit/Update (15 minutes / 2:20)
 
 The steps here are pretty similar to those of the last "I Do," with a few exceptions. The biggest one is...
 
@@ -645,9 +672,9 @@ The big addition here is our controller's `update` method. You'll notice that it
 }());
 ```
 
-### BREAK (10 minutes / 2:05)
+### You Do: Delete (10 minutes)
 
-### YOU DO: Delete (10 minutes / 2:15)
+>  We may not get to this in-class.  
 
 Contrary to how we've done things for every other RESTful route, we will not be creating a separate controller for `delete`. This is because we want to be able to delete a Grumble simply by clicking a button on each grumble's show page.
 
@@ -692,8 +719,16 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
 }());
 ```
 
-### Closing/Questions (15 minutes / 2:30)
+### Closing/Questions (10 minutes / 2:30)
+
+### Homework
+
+Finish implementing full CRUD functionality for Grumblr using `ngResource`. In other words, finish going through all the code in this lesson plan.  
+
+This assignment (along with links to the starter/solution code) is listen in the [`grumblr_angular` repo](https://github.com/ga-wdi-exercises/grumblr_angular).
 
 ### Resources
 
 * Angular documentation for [ngResource](https://docs.angularjs.org/api/ngResource) and [$resource](https://docs.angularjs.org/api/ngResource/service/$resource).
+* [Angular: What Goes Where?](http://demisx.github.io/angularjs/2014/09/14/angular-what-goes-where.html)
+* [Factory vs. Service vs. Provider](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/)
