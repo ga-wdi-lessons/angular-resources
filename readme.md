@@ -725,6 +725,8 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
 
 Finish implementing full CRUD functionality for Grumblr using `ngResource`. In other words, finish going through all the code in this lesson plan.  
 
+This assignment (along with links to the starter/solution code) is listen in the [`grumblr_angular` repo](https://github.com/ga-wdi-exercises/grumblr_angular).
+
 ### Resources
 
 * Angular documentation for [ngResource](https://docs.angularjs.org/api/ngResource) and [$resource](https://docs.angularjs.org/api/ngResource/service/$resource).
