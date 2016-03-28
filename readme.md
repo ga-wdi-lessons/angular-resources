@@ -721,6 +721,10 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
 
 ### Closing/Questions (10 minutes / 2:30)
 
+### Homework
+
+Finish implementing full CRUD functionality for Grumblr using `ngResource`. In other words, finish going through all the code in this lesson plan.  
+
 ### Resources
 
 * Angular documentation for [ngResource](https://docs.angularjs.org/api/ngResource) and [$resource](https://docs.angularjs.org/api/ngResource/service/$resource).
