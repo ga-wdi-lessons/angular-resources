@@ -15,11 +15,11 @@
 * Use $stateParams to access query parameters and update the URL.
 * Create separate views and routes for each CRUD action.
 
-## Framing (2.5 minutes / 0:02)
+## Framing
 
 In the last couple of classes, we've been using hard coded values in our controller to act as our "backend". We probably won't ever do that again. Instead we'll be connecting to an external API using resources and providing an interface to models using factories.
 
-## You Do: Walkthrough of Current App (20 minutes / 0:25)
+## You Do: Walkthrough of Current App (20 minutes / 0:20)
 
 > With the person next to you, take 10 minutes to walk through the following part of the lesson plan, up to the `Factories and Services` header. Read our descriptions of the different components.
 
@@ -159,7 +159,7 @@ $ git checkout -b factory-resource 2.0.0
 
 You'll notice that, at the moment, we have hard-coded models into the Grumbles controller. Today we'll be learning about `ngResource`, a module that allows us to make calls to that Rails API we set up at the start of class.
 
-## Set Up Grumblr API (2.5 minutes / 0:05)
+## Set Up Grumblr API (5 minutes / 0:25)
 
 Let's start by cloning and running a Grumblr Rails API in the background. Our front-end Grumblr application will make AJAX calls to this API.
 
@@ -249,6 +249,7 @@ Now we can call it in a controller...
 > This is nice because it keeps our controller clean. We leave the function declaration(s) to our factory.
 
 ### Service
+
 A service achieves the same purpose as a factory. It is instantiated, however, using the `new` keyword. Instead of defining an object and returning it, we attach properties and methods to `this`. Let's recreate the above factory using a service...
 
 ```js
@@ -298,7 +299,7 @@ Great article comparing Factories, Services, & Providers:
 
 [http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/)
 
-### I DO: Create Grumble Factory (10 minutes / 0:50)
+### I Do: Create Grumble Factory (10 minutes / 0:45)
 
 Let's make a factory that's actually useful. It's purpose: enable us to perform CRUD actions on our Rails Grumblr API.  
 
@@ -364,9 +365,9 @@ var grumble = Grumble.get( { id:123 }, function(grumble) {
 });
 ```
 
-### YOU DO: Create Grumble Factory (10 minutes)
+### You Do: Create Grumble Factory (10 minutes / 0:55)
 
-### I DO: Update Index Controller (5 minutes / 1:00)
+### I Do: Update Index Controller (5 minutes / 1:00)
 
 Let's update our index controller so that, instead of using hard-coded grumbles, `this.grumbles` is set to the result of making a `GET` request to `http://localhost:3000/grumbles`.
 
@@ -388,11 +389,11 @@ Let's update our index controller so that, instead of using hard-coded grumbles,
 
 }());
 ```
-### YOU DO: Update Index Controller (5 minutes)
+### You Do: Update Index Controller (5 minutes / 1:05)
 
-### BREAK (10 minutes / 1:10)
+### Break (10 minutes / 1:15)
 
-### YOU DO: Show (20 minutes / 1:20)
+### You Do: Show (20 minutes / 1:35)
 
 #### Create and Link to a Show Controller File
 
@@ -479,7 +480,7 @@ Use what you learned on your first day of Angular to create a show view for a Gr
 Our app now matches the solution code for this class. We're going to spend the remainder of the lesson rounding out CRUD functionality in our application. Tomorrow you will learn about **Custom Directives** that will allow you to do this in true SPA fashion. But for now, we're going to use the same process we did when implementing `index` and `show`.
 
 
-### I DO: New/Create (15 minutes / 1:35)
+### I Do: New/Create (15 minutes / 1:50)
 
 #### Create `grumbleNew` Route
 
@@ -580,7 +581,11 @@ This link will trigger the `grumbleNew` state when clicked.
 }());
 ```
 
-### YOU DO: Edit/Update (20 minutes / 1:55)
+### You Do: New/Create (10 minutes / 2:00)
+
+### Break (5 minutes / 2:05)
+
+### You Do: Edit/Update (15 minutes / 2:20)
 
 The steps here are pretty similar to those of the last "I Do," with a few exceptions. The biggest one is...
 
@@ -667,9 +672,9 @@ The big addition here is our controller's `update` method. You'll notice that it
 }());
 ```
 
-### BREAK (10 minutes / 2:05)
+### You Do: Delete (10 minutes)
 
-### YOU DO: Delete (10 minutes / 2:15)
+>  We may not get to this in-class.  
 
 Contrary to how we've done things for every other RESTful route, we will not be creating a separate controller for `delete`. This is because we want to be able to delete a Grumble simply by clicking a button on each grumble's show page.
 
@@ -714,8 +719,10 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
 }());
 ```
 
-### Closing/Questions (15 minutes / 2:30)
+### Closing/Questions (10 minutes / 2:30)
 
 ### Resources
 
 * Angular documentation for [ngResource](https://docs.angularjs.org/api/ngResource) and [$resource](https://docs.angularjs.org/api/ngResource/service/$resource).
+* [Angular: What Goes Where?](http://demisx.github.io/angularjs/2014/09/14/angular-what-goes-where.html)
+* [Factory vs. Service vs. Provider](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/)
