@@ -735,3 +735,4 @@ This assignment (along with links to the starter/solution code) is listen in the
 * Angular documentation for [ngResource](https://docs.angularjs.org/api/ngResource) and [$resource](https://docs.angularjs.org/api/ngResource/service/$resource).
 * [Angular: What Goes Where?](http://demisx.github.io/angularjs/2014/09/14/angular-what-goes-where.html)
 * [Factory vs. Service vs. Provider](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/)
+* [CRUD with angular resource](http://www.sitepoint.com/creating-crud-app-minutes-angulars-resource/)
