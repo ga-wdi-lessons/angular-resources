@@ -1,3 +1,6 @@
+<!-- AM: To Dos -->
+<!-- AM: What happens if when you call new on an object (not a constructor). Is it no prototype? -->
+
 # Factories, Services and `ngResource`
 
 ## Screencasts
@@ -33,6 +36,7 @@ Run the below commands to clone this class' starter code. You will not be using 
 
 ```bash
 $ git clone git@github.com:ga-wdi-exercises/grumblr_angular.git
+$ cd grumblr_angular
 $ git checkout -b factory-resource 2.0.0
 ```
 
@@ -370,6 +374,8 @@ var grumble = Grumble.get( { id:123 }, function(grumble) {
 
 ### You Do: Create Grumble Factory (10 minutes / 0:55)
 
+<!-- AM: How can they test out that they've set this up properly? -->
+
 ### I Do: Update Index Controller (5 minutes / 1:00)
 
 Let's update our index controller so that, instead of using hard-coded grumbles, `this.grumbles` is set to the result of making a `GET` request to `http://localhost:3000/grumbles`.
@@ -481,6 +487,8 @@ Use what you learned on your first day of Angular to create a show view for a Gr
 [Here's the solution.](https://github.com/ga-wdi-exercises/grumblr_angular/commit/892a8a2a190e64498723574ea8e6536a75c247ca)
 
 Our app now matches the solution code for this class. We're going to spend the remainder of the lesson rounding out CRUD functionality in our application. Tomorrow you will learn about **Custom Directives** that will allow you to do this in true SPA fashion. But for now, we're going to use the same process we did when implementing `index` and `show`.
+
+<!-- AM: Modify above paragraph so it either removes custom directives mention or directs to a bonus lesson they can follow if they want. -->
 
 
 ### I Do: New/Create (15 minutes / 1:50)
