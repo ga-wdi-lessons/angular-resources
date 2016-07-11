@@ -732,6 +732,8 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
 
 ### Closing/Questions (10 minutes / 2:30)
 
+----------
+
 ### Grumblr Bonuses
 
 > Only attempt the following once you have set up full CRUD functionality for Grumblr.
