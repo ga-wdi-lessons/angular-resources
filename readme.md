@@ -492,6 +492,8 @@ Our app now matches the solution code for this class. We're going to spend the r
 
 ### I Do: New/Create (15 minutes / 1:45)
 
+> Do not code along. You will have the chance to write all this code in the following exercise.
+
 #### Create `grumbleNew` Route
 
 ```js
@@ -550,7 +552,6 @@ This link will trigger the `grumbleNew` state when clicked.
 
 <div data-ng-repeat="grumble in GrumbleIndexViewModel.grumbles">
   <p><a data-ui-sref="grumbleShow({id: grumble.id})">{{grumble.title}}</a></p>
-  <a data-ui-sref="grumbleEdit({id: grumble.id})">Edit</a>
 </div>
 ```
 
@@ -731,11 +732,27 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
 
 ### Closing/Questions (10 minutes / 2:30)
 
-### Homework
+### Grumblr Bonuses
+
+> Only attempt the following once you have set up full CRUD functionality for Grumblr.
+
+#### `state.go`
+
+Use `state.go` so that when a user creates, edits or deletes something, they are directed to a page that is not the same form.
+
+> We're not covering this in today's class. [Learn more in the `ui-router` documentation](https://github.com/angular-ui/ui-router/wiki/Quick-Reference).
+
+#### Hardcore SPA
+
+Only use a single view and controller (i.e., you should be to execute full CRUD functionality from the index). The user should only be able to see forms for creating and updating after clicking buttons for those respective actions.
+
+> This will require making use of directives we didn't use in today's class, like `ng-show` and `ng-hide`.
+
+### Homework (Optional)
 
 Finish implementing full CRUD functionality for Grumblr using `ngResource`. In other words, finish going through all the code in this lesson plan.  
 
-This assignment (along with links to the starter/solution code) is listen in the [`grumblr_angular` repo](https://github.com/ga-wdi-exercises/grumblr_angular).
+Links to the starter and solution code can be found in the [`grumblr_angular` repo](https://github.com/ga-wdi-exercises/grumblr_angular).
 
 ### Resources
 
