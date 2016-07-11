@@ -732,6 +732,11 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
 
 ### Closing/Questions (10 minutes / 2:30)
 
+* Why do we use factories and services?
+* What do factories and services return?
+* What are `ngResource` and `$resource`? What methods do they provide us with?
+* How do we use `$resource` and a factory to create and save something to an API/database?
+
 ----------
 
 ### Grumblr Bonuses
