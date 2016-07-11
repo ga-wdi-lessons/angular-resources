@@ -185,6 +185,7 @@ $ rails s
 First up, we'll convert the hardcoded data to read from an external API using a factory. A factory, however, is not the only way to accomplish this. Let's see what tools we have at our disposal.
 
 ### Factory
+
 A factory is an Angular component that adds functionality to an Angular application. It does this by generating new instances of something. In this case, Grumbles.  
 
 Factories allow us to separate concerns and extract functionality that would otherwise be defined in our controller. We do this by creating an object, attaching properties and methods to it and then returning that object.
@@ -306,7 +307,9 @@ Great article comparing Factories, Services, & Providers:
 
 [http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/)
 
-### I Do: Create Grumble Factory (10 minutes / 0:45)
+### I Do: Create Grumble Factory (15 minutes / 0:50)
+
+> Do not code along. You will have the chance to write all this code in the following exercise.
 
 Let's make a factory that's actually useful. It's purpose: enable us to perform CRUD actions on our Rails Grumblr API.  
 
@@ -372,11 +375,7 @@ var grumble = Grumble.get( { id:123 }, function(grumble) {
 });
 ```
 
-### You Do: Create Grumble Factory (10 minutes / 0:55)
-
-<!-- AM: How can they test out that they've set this up properly? -->
-
-### I Do: Update Index Controller (5 minutes / 1:00)
+#### Let's Test It Out With `.query`...
 
 Let's update our index controller so that, instead of using hard-coded grumbles, `this.grumbles` is set to the result of making a `GET` request to `http://localhost:3000/grumbles`.
 
@@ -398,11 +397,11 @@ Let's update our index controller so that, instead of using hard-coded grumbles,
 
 }());
 ```
-### You Do: Update Index Controller (5 minutes / 1:05)
+### You Do: Create Grumble Factory + Update Index Controller (10 minutes / 1:00)
 
-### Break (10 minutes / 1:15)
+### Break (10 minutes / 1:10)
 
-### You Do: Show (20 minutes / 1:35)
+### You Do: Show (20 minutes / 1:30)
 
 #### Create and Link to a Show Controller File
 
@@ -491,7 +490,7 @@ Our app now matches the solution code for this class. We're going to spend the r
 <!-- AM: Modify above paragraph so it either removes custom directives mention or directs to a bonus lesson they can follow if they want. -->
 
 
-### I Do: New/Create (15 minutes / 1:50)
+### I Do: New/Create (15 minutes / 1:45)
 
 #### Create `grumbleNew` Route
 
@@ -592,9 +591,9 @@ This link will trigger the `grumbleNew` state when clicked.
 }());
 ```
 
-### You Do: New/Create (10 minutes / 2:00)
+### You Do: New/Create (10 minutes / 1:55)
 
-### Break (5 minutes / 2:05)
+### Break (10 minutes / 2:05)
 
 ### You Do: Edit/Update (15 minutes / 2:20)
 
