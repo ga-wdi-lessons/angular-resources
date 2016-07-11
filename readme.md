@@ -738,7 +738,7 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
 
 > Only attempt the following once you have set up full CRUD functionality for Grumblr.
 
-#### `state.go`
+#### state.go
 
 Use `state.go` so that when a user creates, edits or deletes something, they are directed to a page that is not the same form.
 
