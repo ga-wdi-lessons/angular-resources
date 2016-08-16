@@ -14,7 +14,6 @@
 
 * Explain the purpose of and differentiate between Factories and Services in Angular.
 * Use `ngResource` to pull information from an API.
-* Define multiple controllers in a single module.
 * Use $stateParams to access query parameters and update the URL.
 * Create separate views and routes for each CRUD action.
 
@@ -24,9 +23,9 @@ In the last couple of classes, we've been using hard coded values in our control
 
 ## You Do: Walkthrough of Current App (20 minutes / 0:20)
 
-> With the person next to you, take 10 minutes to walk through the following part of the lesson plan, up to the `Factories and Services` header. Read our descriptions of the different components.
+> With the person next to you, take 15 minutes to walk through the following part of the lesson plan, up to the `Factories and Services` header. Read our descriptions of the different components.
 
-> As you go, make a list of up to 3 things on which you could use the most clarification. We'll then take the next 10 minutes to clarify them as a class.
+> As you go, make a list of up to 3 things on which you could use the most clarification. We'll then take the next 5 minutes to clarify them as a class.
 
 Where we're picking up the app, it has...
 * A functioning index route that uses grumbles hardcoded into the index controller
@@ -39,9 +38,6 @@ $ git clone https://github.com/ga-wdi-exercises/grumblr_angular.git
 $ cd grumblr_angular
 $ git checkout -b factory-resource 2.0.0
 ```
-
-Also, it doesn't use `$locationProvider` to remove the hashmark from URLs: all the URLs will be something like /#/grumbles/32. This makes things a bit easier for development: without the hashmark refreshing the page doesn't work, but it does with the hashmark.
-
 
 #### index.html
 
@@ -198,7 +194,7 @@ Let's start building out a factory in Grumblr. First, create a script file for o
 $ touch js/grumbles/grumble.factory.js
 ```
 
-Then let's include our factory file in our main `index.html` file...
+Then let's include our factory file in our main `index.html` file.
 
 ```html
 <!-- index.html -->
