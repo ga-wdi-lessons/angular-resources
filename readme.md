@@ -25,11 +25,8 @@ In the last couple of classes, we've been using hard coded values in our control
 
 > With the person next to you, take 15 minutes to walk through the following part of the lesson plan, up to the `Factories and Services` header. Read our descriptions of the different components.
 
-> As you go, make a list of up to 3 things on which you could use the most clarification. We'll then take the next 5 minutes to clarify them as a class.
+> We'll then take the next 5 minutes for questions.
 
-Where we're picking up the app, it has...
-* A functioning index route that uses grumbles hardcoded into the index controller
-* The makings of a show route. We'll need to build this out.
 
 Run the below commands to clone this class' starter code. You will not be using the code you created in the `ui-router` class.  
 
@@ -38,6 +35,10 @@ $ git clone https://github.com/ga-wdi-exercises/grumblr_angular.git
 $ cd grumblr_angular
 $ git checkout -b factory-resource 2.0.0
 ```
+
+Where we're picking up the app, it has...
+* A functioning index route that uses grumbles hardcoded into the index controller
+* The makings of a show route. We'll need to build this out.
 
 #### index.html
 
