@@ -35,7 +35,7 @@ Where we're picking up the app, it has...
 Run the below commands to clone this class' starter code. You will not be using the code you created in the `ui-router` class.  
 
 ```bash
-$ git clone git@github.com:ga-wdi-exercises/grumblr_angular.git
+$ git clone https://github.com/ga-wdi-exercises/grumblr_angular.git
 $ cd grumblr_angular
 $ git checkout -b factory-resource 2.0.0
 ```
@@ -122,7 +122,7 @@ Also, it doesn't use `$locationProvider` to remove the hashmark from URLs: all t
 >  
 > **grumbles:** A sub-module to which we attach the components of our application (e.g., controllers).  
 >  
-> **$stateProvider:**  A ui-router service - more on those later! - that allows us to define states in our application.  
+> **$stateProvider:**  A ui-router service that allows us to define states in our application.  
 >  
 > **.state:** Used to define an individual state in our application. Arguments include (1) state name and (2) an object that contains information about route, template and controller used.  
 
@@ -164,14 +164,14 @@ Also, it doesn't use `$locationProvider` to remove the hashmark from URLs: all t
 >  
 > **GrumbleIndexControllerFunction:** A function that contains this controller's behavior. This is a stylistic decision - we could have passed in an anonymous function to `.controller` if we wanted to.  
 
-You'll notice that, at the moment, we have hard-coded models into the Grumbles controller. Today we'll be learning about `ngResource`, a module that allows us to make calls to that Rails API we set up at the start of class.
+You'll notice that, at the moment, we have hard-coded models into the Grumbles controller. Today we'll be learning about `ngResource`, a module that allows us to make calls to that Rails API we'll set up now.
 
 ## Set Up Grumblr API (5 minutes / 0:25)
 
 Let's start by cloning and running a Grumblr Rails API in the background. Our front-end Grumblr application will make AJAX calls to this API.
 
 ```bash
-$ git clone git@github.com:ga-wdi-exercises/grumblr_rails_api.git
+$  git clone https://github.com/ga-wdi-exercises/grumblr_rails_api.git
 $ cd grumblr_rails_api
 $ bundle install
 $ rake db:create
@@ -249,7 +249,7 @@ Now we can call it in a controller...
     ]);
 
   function GrumbleIndexControllerFunction( GrumbleFactory ){
-    // When `helloWorld` is called on the controller, it runs the function that we defined in our factory.
+    // When `helloWorld` is called, it runs the function we defined in our factory file.Factory
     GrumbleFactory.helloWorld();
   }
 })();
@@ -357,11 +357,11 @@ Add `ngResource` as a dependency to our application in `js/grumbles/grumbles.js`
 
 Out of the box, this gives us several methods for our newly defined `Grumble` service...
 
-* `Grumble.get`  
-* `Grumble.save`  
-* `Grumble.query`  
-* `Grumble.remove`  
-* `Grumble.delete`  
+* `GrumbleFactory.get`  
+* `GrumbleFactory.save`  
+* `GrumbleFactory.query`  
+* `GrumbleFactory.remove`  
+* `GrumbleFactory.delete`  
 
 > Where's `update`, you ask? We're going to define that ourselves later on.  
 
