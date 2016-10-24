@@ -1,6 +1,3 @@
-<!-- AM: To Dos -->
-<!-- AM: What happens if when you call new on an object (not a constructor). Is it no prototype? -->
-
 # Factories, Services and `ngResource`
 
 ## Screencasts
@@ -52,8 +49,6 @@ Where we're picking up the app, it has...
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-resource.min.js"></script>
 
     <script src="js/app.js"></script>
-    <script src="js/grumbles/grumbles.js"></script>
-    <script src="js/grumbles/index.controller.js"></script>
   </head>
   <body>
     <h1><a data-ui-sref="grumbleIndex">Grumblr</a></h1>
@@ -69,29 +64,25 @@ Where we're picking up the app, it has...
 >  
 > **data-ui-view:** Whichever view is triggered by the user will be displayed in the DOM element with this attribute.  
 
-#### js/grumbles/index.html
+#### js/ng-views/index.html
 
 ```html
 <h2>These are all the Grumbles</h2>
 
-<div data-ng-repeat="grumble in GrumbleIndexViewModel.grumbles">
+<div data-ng-repeat="grumble in vm.grumbles">
   <p>{{grumble.title}}</p>
 </div>
 ```
 > **data-ng-repeat:** Allows us to iterate through each item in the array passed in as an argument. In this case, the controller's `grumbles` property.  
 >  
-> **GrumbleIndexViewModel:** Represents the current instance of our index controller.  
+> **vm:** Represents the current instance of our index controller.  
 
 #### js/app.js
 
 ```js
-"use strict";
-
-(function(){
   angular
   .module("grumblr", [
-    "ui.router",
-    "grumbles"
+    "ui.router"
   ])
   .config([
     "$stateProvider",
@@ -102,47 +93,28 @@ Where we're picking up the app, it has...
     $stateProvider
     .state("grumbleIndex", {
       url: "/grumbles",
-      templateUrl: "js/grumbles/index.html",
+      templateUrl: "js/ng-views/index.html",
       controller: "GrumbleIndexController",
-      controllerAs: "GrumbleIndexViewModel"
+      controllerAs: "vm"
     })
     .state("grumbleShow", {
       url: "/grumbles/:id",
-      templateUrl: "js/grumbles/show.html"
+      templateUrl: "js/ng-views/show.html"
     });
   }
-}());
 ```
-> **.module:** A module is a container for controllers, directives, services -- all parts of our application. A module can have sub-modules (e.g., `grumbles`).  
+> **.module:** A module is a container for controllers, directives, services -- all parts of our application. A module can have sub-modules .
 >  
 > **ui.router:** A 3rd party module that functions as a router.  Allows our application to have multiple states.  
->  
-> **grumbles:** A sub-module to which we attach the components of our application (e.g., controllers).  
 >  
 > **$stateProvider:**  A ui-router service that allows us to define states in our application.  
 >  
 > **.state:** Used to define an individual state in our application. Arguments include (1) state name and (2) an object that contains information about route, template and controller used.  
 
-#### js/grumbles/grumbles.js
+
+#### Index Controller
 
 ```js
-"use strict";
-
-(function(){
-  angular
-  .module("grumbles", []);
-}());
-```
-> **grumbles:** Definition of `grumbles` sub-module.  
-
-#### js/grumbles/index.controller.js
-
-```js
-"use strict";
-
-(function(){
-  angular
-  .module("grumbles")
   .controller("GrumbleIndexController", [
     GrumbleIndexControllerFunction
   ]);
@@ -155,7 +127,6 @@ Where we're picking up the app, it has...
       {title: "Grumbles"}
     ]
   }
-}());
 ```
 > **GrumbleIndexController:** The name of this controller.  
 >  
@@ -168,12 +139,12 @@ You'll notice that, at the moment, we have hard-coded models into the Grumbles c
 Let's start by cloning and running a Grumblr Rails API in the background. Our front-end Grumblr application will make AJAX calls to this API.
 
 ```bash
-$  git clone https://github.com/ga-wdi-exercises/grumblr_rails_api.git
+$ git clone https://github.com/ga-wdi-exercises/grumblr_rails_api.git
 $ cd grumblr_rails_api
 $ bundle install
-$ rake db:create
-$ rake db:migrate
-$ rake db:seed
+$ rails db:create
+$ rails db:migrate
+$ rails db:seed
 $ rails s
 ```
 
@@ -187,37 +158,9 @@ A factory is an Angular component that adds functionality to an Angular applicat
 
 Factories allow us to separate concerns and extract functionality that would otherwise be defined in our controller. We do this by creating an object, attaching properties and methods to it and then returning that object.
 
-Let's start building out a factory in Grumblr. First, create a script file for our factory...
-
-```bash
-# From our app's root directory...
-
-$ touch js/grumbles/grumble.factory.js
-```
-
-Then let's include our factory file in our main `index.html` file.
-
-```html
-<!-- index.html -->
-
-<script src="js/app.js"></script>
-<script src="js/grumbles/grumbles.js"></script>
-<script src="js/grumbles/index.controller.js"></script>
-<script src="js/grumbles/grumble.factory.js"></script>
-```
-
-> Note the file naming syntax! Not mandatory but we're choosing to follow [this Angular style guide](https://github.com/johnpapa/angular-styleguide).  
-
-Now let's start building out our factory...
+Let's start building out a factory in Grumblr.
 
 ```js
-// js/grumbles/grumble.factory.js
-
-"use strict";
-
-(function(){
-  angular
-    .module( "grumbles" )
     .factory( "GrumbleFactory", [
       GrumbleFactoryFunction
     ]);
@@ -229,16 +172,12 @@ Now let's start building out our factory...
       }
     }
   }
-}());
 ```
 > Factories can also take dependencies. In that case, the arguments passed into a factory will look a little different. We'll see that in play when we learn about `ng-resource` later today.
 
 Now we can call it in a controller...
 
 ```js
-(function(){
-  angular
-    .module( "grumble" )
     .controller( "GrumbleIndexController", [
       // The factory is passed in as a dependency to our controller.
       "GrumbleFactory",
@@ -249,7 +188,6 @@ Now we can call it in a controller...
     // When `helloWorld` is called, it runs the function we defined in our factory file.Factory
     GrumbleFactory.helloWorld();
   }
-})();
 ```
 > This is nice because it keeps our controller clean. We leave the function declaration(s) to our factory.
 
@@ -258,9 +196,6 @@ Now we can call it in a controller...
 A service achieves the same purpose as a factory. It is instantiated, however, using the `new` keyword. Instead of defining an object and returning it, we attach properties and methods to `this`. Let's recreate the above factory using a service...
 
 ```js
-(function(){
-  angular
-    .module( "grumble" )
     .service( "GrumbleService", [
       GrumbleServiceFunction
     ]);
@@ -270,24 +205,18 @@ A service achieves the same purpose as a factory. It is instantiated, however, u
         console.log( "Hello world!" );
       }
     }
-}());
 ```
 
 And in our controller...
 ```js
-(function(){
-  angular
-    .module( "appName" )
     .controller( "GrumbleIndexController", [
       "GrumbleService",
       GrumbleIndexControllerFunction
-    ]
-  });
+    ])
 
   function GrumbleIndexControllerFunction( GrumbleService ){
     GrumbleService.helloWorld();
   }
-}());
 ```
 
 ### What's the Difference?
@@ -322,25 +251,16 @@ Let's include it in our application using a CDN.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-resource.min.js"></script>
 ```
 
-Add `ngResource` as a dependency to our application in `js/grumbles/grumbles.js`.  
+Add `ngResource` as a dependency to our application.
 
 ```js
-// js/grumbles/grumbles.js
-
-(function(){
   angular
     .module( "grumbles", [
       "ngResource"
     ]);
-}());
 ```
 
 ```js
-// js/grumbles/grumble.factory.js
-
-(function(){
-  angular
-    .module( "grumbles" )
     .factory( "GrumbleFactory", [
       "$resource",
       GrumbleFactoryFunction
@@ -349,7 +269,6 @@ Add `ngResource` as a dependency to our application in `js/grumbles/grumbles.js`
     function GrumbleFactoryFunction( $resource ){
       return $resource( "http://localhost:3000/grumbles/:id" );
     }
-}());
 ```
 
 Out of the box, this gives us several methods for our newly defined `Grumble` service...
@@ -377,11 +296,6 @@ var grumble = Grumble.get( { id:123 }, function(grumble) {
 Let's update our index controller so that, instead of using hard-coded grumbles, `this.grumbles` is set to the result of making a `GET` request to `http://localhost:3000/grumbles`.
 
 ```js
-// js/controllers/index.controller.js
-(function(){
-
-  angular
-    .module( "grumbles" )
     .controller( "GrumbleIndexController", [
       "GrumbleFactory",
       GrumbleIndexControllerFunction
@@ -391,8 +305,6 @@ Let's update our index controller so that, instead of using hard-coded grumbles,
     function GrumbleIndexControllerFunction( GrumbleFactory ){
       this.grumbles = GrumbleFactory.query();
     }
-
-}());
 ```
 ### You Do: Create Grumble Factory + Update Index Controller (10 minutes / 1:00)
 
@@ -400,20 +312,7 @@ Let's update our index controller so that, instead of using hard-coded grumbles,
 
 ### You Do: Show (20 minutes / 1:30)
 
-#### Create and Link to a Show Controller File
-
-```bash
-$ touch js/grumbles/show.controller.js
-```
-
-```html
-<!-- index.html -->
-<script src="js/app.js"></script>
-<script src="js/grumbles/grumbles.js"></script>
-<script src="js/grumbles/index.controller.js"></script>
-<script src="js/grumbles/show.controller.js"></script>
-<script src="js/grumbles/grumble.factory.js"></script>
-```
+#### Create a Show Controller
 
 #### Add a Show `.state()` to `app.js`
 
@@ -425,9 +324,9 @@ Use the same format as we did with `grumbleIndex`.
 ```js
 .state("grumbleShow", {
   url: "/grumbles/:id",
-  templateUrl: "js/grumbles/show.html",
+  templateUrl: "js/ng-views/show.html",
   controller: "GrumbleShowController",
-  controllerAs: "GrumbleShowViewModel"
+  controllerAs: "vm"
 });
 ```
 
@@ -436,7 +335,7 @@ Use the same format as we did with `grumbleIndex`.
 Each grumble listed here should link to its corresponding show page.
 
 ```html
-<div data-ng-repeat="grumble in GrumbleIndexViewModel.grumbles | orderBy:'-created_at'">
+<div data-ng-repeat="grumble in vm.grumbles | orderBy:'-created_at'">
   <p><a data-ui-sref="grumbleShow({id: grumble.id})">{{grumble.title}}</a></p>
 </div>
 ```
@@ -455,13 +354,6 @@ The controller will have a `grumble` property. It should be set to the return va
 * `ngResource`'s `get` method requires an object as an argument, which contains a key-value pair for the grumble's id.  
 
 ```js
-// js/grumbles/show.controller.js
-
-"use strict";
-
-(function(){
-  angular
-  .module("grumbles")
   .controller("GrumbleShowController", [
     "GrumbleFactory",
     "$stateParams",
@@ -471,21 +363,11 @@ The controller will have a `grumble` property. It should be set to the return va
   function GrumbleShowControllerFunction(GrumbleFactory, $stateParams){
     this.grumble = GrumbleFactory.get({id: $stateParams.id});
   }
-}());
 ```
 
 #### Update `show.html`
 
 Use what you learned on your first day of Angular to create a show view for a Grumble. It should display the Grumble's title, author name, created at date, content and photo.  
-
-#### Need Help?
-
-[Here's the solution.](https://github.com/ga-wdi-exercises/grumblr_angular/commit/892a8a2a190e64498723574ea8e6536a75c247ca)
-
-Our app now matches the solution code for this class. We're going to spend the remainder of the lesson rounding out CRUD functionality in our application. Tomorrow you will learn about **Custom Directives** that will allow you to do this in true SPA fashion. But for now, we're going to use the same process we did when implementing `index` and `show`.
-
-<!-- AM: Modify above paragraph so it either removes custom directives mention or directs to a bonus lesson they can follow if they want. -->
-
 
 ### I Do: New/Create (15 minutes / 1:45)
 
@@ -499,21 +381,21 @@ Our app now matches the solution code for this class. We're going to spend the r
 $stateProvider
   .state("grumbleIndex", {
     url: "/grumbles",
-    templateUrl: "js/grumbles/index.html",
+    templateUrl: "js/ng-views/index.html",
     controller: "GrumbleIndexController",
-    controllerAs: "GrumbleIndexViewModel"
+    controllerAs: "vm"
   })
   .state("grumbleNew", {
     url: "/grumbles/new",
-    templateUrl: "js/grumbles/new.html",
+    templateUrl: "js/ng-views/new.html",
     controller: "GrumbleNewController",
-    controllerAs: "GrumbleNewViewModel"
+    controllerAs: "vm"
   })
   .state("grumbleShow", {
     url: "/grumbles/:id",
-    templateUrl: "js/grumbles/show.html",
+    templateUrl: "js/ng-views/show.html",
     controller: "GrumbleShowController",
-    controllerAs: "GrumbleShowViewModel"
+    controllerAs: "vm"
   });
 ```
 
@@ -524,16 +406,16 @@ $stateProvider
 Let's start by creating a form view for creating Grumbles.
 
 ```html
-<!-- js/grumbles/new.html -->
+<!-- js/ng-views/new.html -->
 
 <h2>Create Grumble</h2>
 
 <form>
-  <input placeholder="Title" data-ng-model="GrumbleNewViewModel.grumble.title" />
-  <input placeholder="Author name" data-ng-model="GrumbleNewViewModel.grumble.authorName" />
-  <input placeholder="Photo URL" data-ng-model="GrumbleNewViewModel.grumble.photoUrl" />
-  <textarea placeholder="Grumble content" data-ng-model="GrumbleNewViewModel.grumble.content"></textarea>
-  <button type="button" data-ng-click="GrumbleNewViewModel.create()">Create</button>
+  <input placeholder="Title" data-ng-model="vm.grumble.title" />
+  <input placeholder="Author name" data-ng-model="vm.grumble.authorName" />
+  <input placeholder="Photo URL" data-ng-model="vm.grumble.photoUrl" />
+  <textarea placeholder="Grumble content" data-ng-model="vm.grumble.content"></textarea>
+  <button type="button" data-ng-click="vm.create()">Create</button>
 </form>
 ```
 > Fields are matched to grumble properties using the `data-ng-model` directive.  
@@ -547,34 +429,15 @@ This link will trigger the `grumbleNew` state when clicked.
 
 <h2>These are all the Grumbles</h2>
 
-<div data-ng-repeat="grumble in GrumbleIndexViewModel.grumbles">
+<div data-ng-repeat="grumble in vm.grumbles">
   <p><a data-ui-sref="grumbleShow({id: grumble.id})">{{grumble.title}}</a></p>
 </div>
 ```
 
-#### Link to `new.controller.js` in `index.html`
 
-```html
-<!-- index.html -->
-
-<script src="js/app.js"></script>
-<script src="js/grumbles/grumbles.js"></script>
-<script src="js/grumbles/index.controller.js"></script>
-<script src="js/grumbles/show.controller.js"></script>
-<script src="js/grumbles/new.controller.js"></script>
-<script src="js/grumbles/grumble.factory.js"></script>
-```
-
-#### Create `new.controller.js`
+#### Create new controller
 
 ```js
-// js/grumbles/new.controller.js
-
-"use strict";
-
-(function(){
-  angular
-    .module( "grumbles" )
     .controller( "GrumbleNewController", [
       "GrumbleFactory",
       GrumbleNewControllerFunction
@@ -586,7 +449,6 @@ This link will trigger the `grumbleNew` state when clicked.
         this.grumble.$save()
       }
     }
-}());
 ```
 
 ### You Do: New/Create (10 minutes / 1:55)
@@ -602,13 +464,6 @@ The steps here are pretty similar to those of the last "I Do," with a few except
 `ngResource` does not come with a native `update` method. We need to define it in the `FactoryFunction` return statement, indicating that `update` corresponds to a `PUT` request.  
 
 ```js
-// js/grumbles/grumble.factory.js
-
-"use strict";
-
-(function(){
-  angular
-    .module( "grumbles" )
     .factory( "GrumbleFactory", [
       "$resource",
       FactoryFunction
@@ -619,7 +474,6 @@ The steps here are pretty similar to those of the last "I Do," with a few except
         update: { method: "PUT" }
     });
   }
-}());
 ```
 
 The rest of the steps are a bit more straightforward...  
@@ -637,7 +491,7 @@ Let's update our `ng-repeat` div so that it also displays a link with each Grumb
 ```html
 <!-- js/grumbles/index.html -->
 
-<div data-ng-repeat="grumble in GrumbleIndexViewModel.grumbles">
+<div data-ng-repeat="grumble in vm.grumbles">
   <p><a data-ui-sref="grumbleShow({id: grumble.id})">{{grumble.title}}</a></p>
   <a data-ui-sref="grumbleEdit({id: grumble.id})">Edit</a>
 </div>
@@ -645,11 +499,11 @@ Let's update our `ng-repeat` div so that it also displays a link with each Grumb
 #### Create `edit.html`
 
 The form on this page will look a lot like the one in `new.html`, but you'll need to make some changes to it...
-* Reference the proper controller instance. You probably called it `GrumbleEditViewModel`.
+* Reference the proper controller instance. You probably called it `vm`.
 * Replace your inputs' `placeholder` attribute with `value` so we have some content to work with in our input fields upon page load.
 * Set these value attributes to the contents of the Grumble like so...
 ```html
-<input value="GrumbleEditViewModel.grumble.title" ... >
+<input value="vm.grumble.title" ... >
 ```
 * In the button's `ng-click` directive, reference a yet-to-be-defined `.update` method instead of `.create`.
 
@@ -657,14 +511,9 @@ The form on this page will look a lot like the one in `new.html`, but you'll nee
 
 #### Create `edit.controller.js`
 
-The big addition here is our controller's `update` method. You'll notice that it makes use of `$update`. THIS is the method we defined in `js/grumbles/grumble.factory.js`. It is preceded by a `$` because this is how `ngResource` indicates it's an instance method.
+The big addition here is our controller's `update` method. You'll notice that it makes use of `$update`. THIS is the method we defined in the grumble factory. It is preceded by a `$` because this is how `ngResource` indicates it's an instance method.
 
 ```js
-"use strict";
-
-(function(){
-  angular
-    .module( "grumbles" )
     .controller( "GrumbleEditController", [
       "GrumbleFactory",
       "$stateParams",
@@ -677,7 +526,6 @@ The big addition here is our controller's `update` method. You'll notice that it
       this.grumble.$update({id: $stateParams.id})
     }
   }
-}());
 ```
 
 ### You Do: Delete (10 minutes)
@@ -692,23 +540,18 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
 
 ```html
 <form>
-  <input value="GrumbleEditViewModel.grumble.title" data-ng-model="GrumbleEditViewModel.grumble.title" />
-  <input value="GrumbleEditViewModel.grumble.authorName" data-ng-model="GrumbleEditViewModel.grumble.authorName" />
-  <input value="GrumbleEditViewModel.grumble.photoUrl" data-ng-model="GrumbleEditViewModel.grumble.photoUrl" />
-  <textarea value="GrumbleEditViewModel.grumble.content" data-ng-model="GrumbleEditViewModel.grumble.content"></textarea>
-  <button data-ng-click="GrumbleEditViewModel.update()">Update</button>
-  <button data-ng-click="GrumbleEditViewModel.destroy()">Delete</button>
+  <input value="vm.grumble.title" data-ng-model="vm.grumble.title" />
+  <input value="vm.grumble.authorName" data-ng-model="vm.grumble.authorName" />
+  <input value="vm.grumble.photoUrl" data-ng-model="vm.grumble.photoUrl" />
+  <textarea value="vm.grumble.content" data-ng-model="vm.grumble.content"></textarea>
+  <button data-ng-click="vm.update()">Update</button>
+  <button data-ng-click="vm.destroy()">Delete</button>
 </form>
 ```
 
-#### Add Destroy Method to `edit.controller.js`
+#### Add Destroy Method to Edit controller
 
 ```js
-"use strict";
-
-(function(){
-  angular
-    .module( "grumbles" )
     .controller( "GrumbleEditController", [
       "GrumbleFactory",
       "$stateParams",
@@ -724,7 +567,6 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
       this.grumble.$delete({id: $stateParams.id});
     }
   }
-}());
 ```
 
 ### Closing/Questions (10 minutes / 2:30)
