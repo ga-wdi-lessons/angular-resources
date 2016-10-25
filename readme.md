@@ -1,15 +1,8 @@
 # Factories, Services and `ngResource`
 
-## Screencasts
-- Dec 16, 2015 (Robin)
-  - [Part 1](https://youtu.be/Ni-KnX9eEDI)
-  - [Part 2](https://youtu.be/Jm4lmgpQfJ8)
-  - [Part 3](https://youtu.be/dP0YsPTnaTU)
-  - [Part 4](https://youtu.be/oEFmmQgh4cE)
-
 ## Learning Objectives
 
-* Explain the purpose of and differentiate between Factories and Services in Angular.
+* Explain the purpose of Factories in Angular.
 * Use `ngResource` to pull information from an API.
 * Use $stateParams to access query parameters and update the URL.
 * Create separate views and routes for each CRUD action.
@@ -20,10 +13,9 @@ In the last couple of classes, we've been using hard coded values in our control
 
 ## You Do: Walkthrough of Current App (20 minutes / 0:20)
 
-> With the person next to you, take 15 minutes to walk through the following part of the lesson plan, up to the `Factories and Services` header. Read our descriptions of the different components.
+> With the person next to you, take 15 minutes to walk through the following part of the lesson plan, up to the `Factories` header. Read our descriptions of the different components.
 
 > We'll then take the next 5 minutes for questions.
-
 
 Run the below commands to clone this class' starter code. You will not be using the code you created in the `ui-router` class.  
 
@@ -148,7 +140,7 @@ $ rails db:seed
 $ rails s
 ```
 
-## Factories and Services (10 minutes / 0:35)
+## Factories (10 minutes / 0:35)
 
 First up, we'll convert the hardcoded data to read from an external API using a factory. A factory, however, is not the only way to accomplish this. Let's see what tools we have at our disposal.
 
@@ -191,39 +183,15 @@ Now we can call it in a controller...
 ```
 > This is nice because it keeps our controller clean. We leave the function declaration(s) to our factory.
 
-### Service
+<details>
+<summary>Bonus! Services!</summary>
+
 
 A service achieves the same purpose as a factory. It is instantiated, however, using the `new` keyword. Instead of defining an object and returning it, we attach properties and methods to `this`. Let's recreate the above factory using a service...
 
-```js
-    .service( "GrumbleService", [
-      GrumbleServiceFunction
-    ]);
-
-    function GrumbleServiceFunction(){
-      this.helloWorld = function(){
-        console.log( "Hello world!" );
-      }
-    }
-```
-
-And in our controller...
-```js
-    .controller( "GrumbleIndexController", [
-      "GrumbleService",
-      GrumbleIndexControllerFunction
-    ])
-
-  function GrumbleIndexControllerFunction( GrumbleService ){
-    GrumbleService.helloWorld();
-  }
-```
-
-### What's the Difference?
-
 Our controllers look nearly identical in both examples. The difference is in the content of the factory and service. **What do you notice?**
 
-#### Which One Should I Use?
+Which One Should I Use?
 
 The answer is it doesn't really matter. You might take a look at this "cheat sheet" of what should be used when:
 
@@ -232,6 +200,8 @@ The answer is it doesn't really matter. You might take a look at this "cheat she
 Great article comparing Factories, Services, & Providers:
 
 [http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/)
+</div>
+</details>
 
 ### I Do: Create Grumble Factory (15 minutes / 0:50)
 
@@ -314,12 +284,9 @@ Let's update our index controller so that, instead of using hard-coded grumbles,
 
 #### Create a Show Controller
 
-#### Add a Show `.state()` to `app.js`
+#### Modify the Show `.state()` in `app.js`
 
-Use the same format as we did with `grumbleIndex`.  
-* You can chain the new `.state()` to the existing one.
-* The `url` will require a placeholder for the individual grumble's unique identifier.  
-* Don't forget to include values for `controller` and `controllerAs`.  
+* Include values for `controller` and `controllerAs`.  
 
 ```js
 .state("grumbleShow", {
@@ -489,7 +456,7 @@ Not sure what URL to use? Think about what the path would look like for an edit 
 Let's update our `ng-repeat` div so that it also displays a link with each Grumble that will direct us to an edit page.
 
 ```html
-<!-- js/grumbles/index.html -->
+<!-- js/ng-views/index.html -->
 
 <div data-ng-repeat="grumble in vm.grumbles">
   <p><a data-ui-sref="grumbleShow({id: grumble.id})">{{grumble.title}}</a></p>
@@ -605,3 +572,10 @@ Links to the starter and solution code can be found in the [`grumblr_angular` re
 * Angular documentation for [ngResource](https://docs.angularjs.org/api/ngResource) and [$resource](https://docs.angularjs.org/api/ngResource/service/$resource).
 * [Angular: What Goes Where?](http://demisx.github.io/angularjs/2014/09/14/angular-what-goes-where.html)
 * [Factory vs. Service vs. Provider](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/)
+
+## Screencasts
+- Dec 16, 2015 (Robin)
+  - [Part 1](https://youtu.be/Ni-KnX9eEDI)
+  - [Part 2](https://youtu.be/Jm4lmgpQfJ8)
+  - [Part 3](https://youtu.be/dP0YsPTnaTU)
+  - [Part 4](https://youtu.be/oEFmmQgh4cE)
