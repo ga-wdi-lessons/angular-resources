@@ -22,7 +22,7 @@ Run the below commands to clone this class' starter code. You will not be using 
 ```bash
 $ git clone https://github.com/ga-wdi-exercises/grumblr_angular.git
 $ cd grumblr_angular
-$ git checkout -b factory-resource 2.0.0
+$ git checkout -b factory-resource-starter
 ```
 
 Where we're picking up the app, it has...
