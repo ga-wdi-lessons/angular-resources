@@ -208,7 +208,7 @@ Great article comparing Factories, Services, & Providers:
 
 Let's make a factory that's actually useful. It's purpose: enable us to perform CRUD actions on our Rails Grumblr API.  
 
-By default, Angular does not include a way to interact with APIs. For that, there is a separate module, called [ngResource](https://docs.angularjs.org/api/ngResource).  
+By default, Angular does not include a way to interact with APIs. For that, there is a separate module, called [ngResource](https://docs.angularjs.org/api/ngResource). The ngResource module provides interaction support with RESTful services.
 
 Let's include it in our application using a CDN.  
 
