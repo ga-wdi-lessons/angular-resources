@@ -38,7 +38,7 @@ Where we're picking up the app, it has...
     <title>Angular</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-resource.min.js"></script>
+
 
     <script src="js/app.js"></script>
   </head>
@@ -216,19 +216,20 @@ Let's include it in our application using a CDN.
 ```html
 <!-- index.html -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-resource.min.js"></script>
 ```
 
 Add `ngResource` as a dependency to our application.
 
 ```js
-  angular
-    .module( "grumbles", [
-      "ngResource"
-    ]);
+angular
+  .module("grumblr", [
+    "ui.router",
+    "ngResource"
+  ])
 ```
+
+And `$resource` as a dependency to our `GrumbleFactory`
 
 ```js
     .factory( "GrumbleFactory", [
@@ -241,7 +242,7 @@ Add `ngResource` as a dependency to our application.
     }
 ```
 
-Out of the box, this gives us several methods for our newly defined `Grumble` service...
+Out of the box, this gives us several methods for our newly defined `Grumble` factory...
 
 * `GrumbleFactory.get`  
 * `GrumbleFactory.save`  
