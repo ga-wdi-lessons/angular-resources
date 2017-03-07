@@ -340,6 +340,20 @@ Use what you learned on your first day of Angular to create a show view for a Gr
 
 > Do not code along. You will have the chance to write all this code in the following exercise.
 
+#### Add New Link to `index.html`
+
+This link will trigger the `grumbleNew` state when clicked.
+
+```html
+<a data-ui-sref="grumbleNew">New Grumble</a>
+
+<h2>These are all the Grumbles</h2>
+
+<div data-ng-repeat="grumble in vm.grumbles">
+  <p><a data-ui-sref="grumbleShow({id: grumble.id})">{{grumble.title}}</a></p>
+</div>
+```
+
 #### Create `grumbleNew` Route
 
 ```js
@@ -368,9 +382,27 @@ $stateProvider
 
 > NOTE: `grumbleNew` is placed before `grumbleShow`. This is important - why? Switching `grumbleNew` and `grumbleShow` may shed some light on this...  
 
+#### Create new controller
+
+In the `GrumbleNewControllerFunction`, let's bring in `GrumbleFactory`, instantiate a `new` instance of it that can be modified by form inputs, and add a `create` method that allows it to be send to our API.
+
+```js
+  .controller( "GrumbleNewController", [
+    "GrumbleFactory",
+    GrumbleNewControllerFunction
+  ]);
+
+  function GrumbleNewControllerFunction( GrumbleFactory ){
+    this.grumble = new GrumbleFactory();
+    this.create = function(){
+      this.grumble.$save()
+    }
+  }
+```
+
 #### Create `new.html`
 
-Let's start by creating a form view for creating Grumbles.
+Let's create a form view for creating Grumbles. Notice how `data-ng-model` references what we defined as `this.grumble` in our controller in the previous step.
 
 ```html
 <!-- js/ng-views/new.html -->
@@ -387,36 +419,7 @@ Let's start by creating a form view for creating Grumbles.
 ```
 > Fields are matched to grumble properties using the `data-ng-model` directive.  
 
-#### Add New Link to `index.html`
 
-This link will trigger the `grumbleNew` state when clicked.
-
-```html
-<a data-ui-sref="grumbleNew">New Grumble</a>
-
-<h2>These are all the Grumbles</h2>
-
-<div data-ng-repeat="grumble in vm.grumbles">
-  <p><a data-ui-sref="grumbleShow({id: grumble.id})">{{grumble.title}}</a></p>
-</div>
-```
-
-
-#### Create new controller
-
-```js
-    .controller( "GrumbleNewController", [
-      "GrumbleFactory",
-      GrumbleNewControllerFunction
-    ]);
-
-    function GrumbleNewControllerFunction( GrumbleFactory ){
-      this.grumble = new GrumbleFactory();
-      this.create = function(){
-        this.grumble.$save()
-      }
-    }
-```
 
 ### You Do: New/Create (10 minutes / 1:55)
 
@@ -445,12 +448,6 @@ The steps here are pretty similar to those of the last "I Do," with a few except
 
 The rest of the steps are a bit more straightforward...  
 
-#### Create `grumbleEdit` Route
-
-Follow the same process we did for `grumbleNew`, making sure to use the word `edit` wherever necessary.  
-
-Not sure what URL to use? Think about what the path would look like for an edit form in a Rails app...  
-
 #### Update `index.html`
 
 Let's update our `ng-repeat` div so that it also displays a link with each Grumble that will direct us to an edit page.
@@ -463,20 +460,14 @@ Let's update our `ng-repeat` div so that it also displays a link with each Grumb
   <a data-ui-sref="grumbleEdit({id: grumble.id})">Edit</a>
 </div>
 ```
-#### Create `edit.html`
 
-The form on this page will look a lot like the one in `new.html`, but you'll need to make some changes to it...
-* Reference the proper controller instance. You probably called it `vm`.
-* Replace your inputs' `placeholder` attribute with `value` so we have some content to work with in our input fields upon page load.
-* Set these value attributes to the contents of the Grumble like so...
-```html
-<input value="vm.grumble.title" ... >
-```
-* In the button's `ng-click` directive, reference a yet-to-be-defined `.update` method instead of `.create`.
+#### Create `grumbleEdit` Route
 
-#### Link to Edit Controller in `index.html`
+Follow the same process we did for `grumbleNew`, making sure to use the word `edit` wherever necessary.  
 
-#### Create `edit.controller.js`
+Not sure what URL to use? Think about what the path would look like for an edit form in a Rails app...  
+
+#### Create `GrumbleEditController`
 
 The big addition here is our controller's `update` method. You'll notice that it makes use of `$update`. THIS is the method we defined in the grumble factory. It is preceded by a `$` because this is how `ngResource` indicates it's an instance method.
 
@@ -494,6 +485,17 @@ The big addition here is our controller's `update` method. You'll notice that it
     }
   }
 ```
+
+#### Create `edit.html`
+
+The form on this page will look a lot like the one in `new.html`, but you'll need to make some changes to it...
+* Reference the proper controller instance. You probably called it `vm`.
+* Replace your inputs' `placeholder` attribute with `value` so we have some content to work with in our input fields upon page load.
+* Set these value attributes to the contents of the Grumble like so...
+```html
+<input value="vm.grumble.title" ... >
+```
+* In the button's `ng-click` directive, reference the controller's `.update` method instead of `.create`.
 
 ### You Do: Delete (10 minutes)
 
