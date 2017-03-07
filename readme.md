@@ -1,4 +1,4 @@
-# Factories, Services and `ngResource`
+# Factories and `ngResource`
 
 ## Learning Objectives
 
@@ -9,7 +9,7 @@
 
 ## Framing
 
-In the last couple of classes, we've been using hard coded values in our controller to act as our "backend". We probably won't ever do that again. Instead we'll be connecting to an external API using resources and providing an interface to models using factories.
+In the last couple of classes, we've been using hardcoded values in our controller to act as our "backend". We probably won't ever do that again. Instead we'll be connecting to an external API using resources and providing an interface to models using factories.
 
 ## You Do: Walkthrough of Current App (20 minutes / 0:20)
 
@@ -17,7 +17,7 @@ In the last couple of classes, we've been using hard coded values in our control
 
 > We'll then take the next 5 minutes for questions.
 
-Run the below commands to clone this class' starter code. You will not be using the code you created in the `ui-router` class.  
+Run the below commands to clone the starter code. You will not be using the code you created in the `ui-router` class.  
 
 ```bash
 $ git clone https://github.com/ga-wdi-exercises/grumblr_angular.git
@@ -38,8 +38,6 @@ Where we're picking up the app, it has...
     <title>Angular</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
-
-
     <script src="js/app.js"></script>
   </head>
   <body>
@@ -124,7 +122,7 @@ Where we're picking up the app, it has...
 >  
 > **GrumbleIndexControllerFunction:** A function that contains this controller's behavior. This is a stylistic decision - we could have passed in an anonymous function to `.controller` if we wanted to.  
 
-You'll notice that, at the moment, we have hard-coded models into the Grumbles controller. Today we'll be learning about `ngResource`, a module that allows us to make calls to that Rails API we'll set up now.
+You'll notice that, at the moment, we have hardcoded models into the Grumbles controller. Today we'll be learning about `ngResource`, a module that allows us to make calls to that Rails API we'll set up now.
 
 ## Set Up Grumblr API (5 minutes / 0:25)
 
@@ -134,6 +132,7 @@ Let's start by cloning and running a Grumblr Rails API in the background. Our fr
 $ git clone https://github.com/ga-wdi-exercises/grumblr_rails_api.git
 $ cd grumblr_rails_api
 $ bundle install
+$ rails db:drop
 $ rails db:create
 $ rails db:migrate
 $ rails db:seed
@@ -142,7 +141,7 @@ $ rails s
 
 ## Factories (10 minutes / 0:35)
 
-First up, we'll convert the hardcoded data to read from an external API using a factory. A factory, however, is not the only way to accomplish this. Let's see what tools we have at our disposal.
+First up, we'll convert the hardcoded data to read from an external API using a factory.
 
 ### Factory
 
@@ -183,7 +182,7 @@ Now we can call it in a controller...
 ```
 > This is nice because it keeps our controller clean. We leave the function declaration(s) to our factory.
 
-<details>
+<!-- <details>
 <summary>Bonus! Services!</summary>
 
 
@@ -201,7 +200,7 @@ Great article comparing Factories, Services, & Providers:
 
 [http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/](http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/)
 </div>
-</details>
+</details> -->
 
 ### I Do: Create Grumble Factory (15 minutes / 0:50)
 
@@ -264,7 +263,7 @@ var grumble = Grumble.get( { id:123 }, function(grumble) {
 
 #### Let's Test It Out With `.query`...
 
-Let's update our index controller so that, instead of using hard-coded grumbles, `this.grumbles` is set to the result of making a `GET` request to `http://localhost:3000/grumbles`.
+Let's update our index controller so that, instead of using hardcoded grumbles, `this.grumbles` is set to the result of making a `GET` request to `http://localhost:3000/grumbles`.
 
 ```js
     .controller( "GrumbleIndexController", [
@@ -539,8 +538,8 @@ When clicked, the delete button will trigger a `destroy` method that we have yet
 
 ### Closing/Questions (10 minutes / 2:30)
 
-* Why do we use factories and services?
-* What do factories and services return?
+* Why do we use factories?
+* What do factories return?
 * What are `ngResource` and `$resource`? What methods do they provide us with?
 * How do we use `$resource` and a factory to create and save something to an API/database?
 
