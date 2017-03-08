@@ -380,7 +380,7 @@ $stateProvider
 
 > NOTE: `grumbleNew` is placed before `grumbleShow`. This is important - why? Switching `grumbleNew` and `grumbleShow` may shed some light on this...  
 
-#### Create new controller
+#### Create a New controller
 
 In the `GrumbleNewControllerFunction`, let's bring in `GrumbleFactory`, instantiate a `new` instance of it that can be modified by form inputs, and add a `create` method that allows it to be send to our API.
 
@@ -465,7 +465,7 @@ Follow the same process we did for `grumbleNew`, making sure to use the word `ed
 
 Not sure what URL to use? Think about what the path would look like for an edit form in a Rails app...  
 
-#### Create `GrumbleEditController`
+#### Create an Edit Controller
 
 The big addition here is our controller's `update` method. You'll notice that it makes use of `$update`. THIS is the method we defined in the grumble factory. It is preceded by a `$` because this is how `ngResource` indicates it's an instance method.
 
