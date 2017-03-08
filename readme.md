@@ -282,8 +282,6 @@ Let's update our index controller so that, instead of using hardcoded grumbles, 
 
 ### You Do: Show (20 minutes / 1:30)
 
-#### Create a Show Controller
-
 #### Modify the Show `.state()` in `app.js`
 
 * Include values for `controller` and `controllerAs`.  
